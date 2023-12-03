@@ -6,7 +6,7 @@ def sum_current_time(time_str: str) -> int:
     # guard clause to ensure the input is a string (therefore can be split in the next step).
     if not isinstance(time_str,str):
         raise TypeError("Input must be a string")
-    
+
     # splitting the string to a list of integers and converting the strings to integers.
     try:
         list_of_nums_str = time_str.split(":")
@@ -19,9 +19,10 @@ def sum_current_time(time_str: str) -> int:
         raise ValueError("Input must have a valid hour between 0-23.")
     if list_of_nums_int[1] > 59 or list_of_nums_int[2] > 59:
         raise ValueError("Input must have valid minutes/seconds between 0-59.")
-    
+
     return sum(list_of_nums_int)
 
 
 if __name__ == "__main__":
+
     print(sum_current_time('01:02:03'))

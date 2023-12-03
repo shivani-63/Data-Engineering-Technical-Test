@@ -1,17 +1,25 @@
 """Script to validate log lines and then convert each log string to a dictionary object."""
+from datetime import datetime
 
-def is_log_line(line):
+def is_log_line(line:str) -> bool:
     """Takes a log line and returns True if it is a valid log line and returns nothing
     if it is not.
     """
-    valid_error_types = ["WARNING", "INFO", "TRACE"]
-    for error_type in valid_error_types:
-        #this ensures an error type and the ':' syntax for the start of each message is in the log line.
-        if error_type in line and ":" in line:
-            return True
-    return False
+    try:
+        #this ensures that the timestamp can be converted to a datetime object
+        timestamp = line[:17]
+        date_format = "%d/%m/%y %H:%M:%S"
+        datetime.strptime(timestamp, date_format)
 
-def get_dict(line):
+        valid_error_types = ["WARNING", "INFO", "TRACE"]
+        for error_type in valid_error_types:
+        #this ensures an error type and the ':' syntax for the start of a message is in the log line
+            if error_type in line and ":" in line:
+                return True
+    except:
+        return False
+
+def get_dict(line:str) -> dict:
     """Takes a log line and returns a dict with
     `timestamp`, `log_level`, `message` keys
     """
@@ -28,7 +36,6 @@ def get_dict(line):
     message = line_to_get_message[2][:-1]
 
     return {"timestamp": timestamp, "log_level": log_level, "message": message}
-
 
 
 if __name__ == "__main__":
